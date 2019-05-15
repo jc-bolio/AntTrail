@@ -1,4 +1,4 @@
-int [][] grid; //<>// //<>// //<>//
+int [][] grid; //<>// //<>//
 int i;
 String sequence = "";
 
@@ -25,7 +25,16 @@ int antY=0;
 int forwardX = 1;
 int forwardY = 0;
 
-void consumePaso(){
+void draw() {
+  drawGrid();
+  step();
+  i += 1;
+  if(i>=sequence.length()){
+    i=0;
+  }
+}
+
+void step(){
   int difference;
 
     
@@ -129,20 +138,6 @@ void consumePaso(){
         }
       }
     }
-}
-
-
-void draw() {
-  drawGrid();
-  consumePaso();
-  i += 1;
-  if(i>=sequence.length()){
-    i=0;
-  } //<>//
-}
-
-void keyPressed() {
-  
 }
 
 //Dibuja y actualiza el sketch
