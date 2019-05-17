@@ -1,11 +1,17 @@
-int [][] grid; //<>//
+import java.util.*; //<>//
+
+int [][] grid;
 Ant ant;
 String sequence = "";
 int i;
+int j;
+StringTokenizer st;
+ArrayList<String> instructions = new ArrayList();
+boolean food = false;
 
 void setup() {
   size(600, 500);
-  frameRate(7);
+  frameRate(1);
   background(209);
 
   grid = new int[][]{
@@ -16,54 +22,86 @@ void setup() {
     {1, 1, 0, 1, 0, 0, 1}, 
     {0, 0, 0, 1, 1, 0, 0}, 
   };
-  
-  ant = new Ant();
-  sequence = "FRFL";
-  i=0;
-}
 
-String conditionSeq;
+  ant = new Ant();
+  sequence = "FFY.FR.N.LF.";
+  i=0;
+  j=0;
+
+  divideSequence(sequence);
+  sequence = instructions.get(j);
+}
 
 void draw() {
   drawGrid();
-  //condition();
-  //step(sequence);
+  sequence = instructions.get(j);
+  print(sequence + ": ");
+
+  if (sequence.charAt(0) == 'Y' || sequence.charAt(0) == 'N') {
+    food = checkForFood();
+    if (!food && sequence.contains("Y")) {
+      j++;
+    } else if (food && sequence.contains("N")) {
+      j++;
+    }
+  }
   
   ant.action(sequence.charAt(i));
-  
+
   i++;
   if (i>=sequence.length()) {
     i=0;
+    j++;
+  }
+
+  if (j >= instructions.size()) {
+    j=0;
   }
 }
 
-/*void condition(){
-  
-  int fwdXCopy = forwardX;
-  int fwdYCopy = forwardY;
-    
-  if(sequence.charAt(i)=='Y'){
-    
-    if (antX != fwdXCopy){
-      if(fwdXCopy >= grid[0].length){
-        fwdXCopy = 0;
-      } else if(fwdXCopy < 0){
-        fwdXCopy = grid[0].length - 1;
-      }
-      
-    
+boolean checkForFood() {
+
+  int fwdXCopy = ant.getfwdX();
+  int fwdYCopy = ant.getfwdY(); 
+
+  if (ant.getX() != fwdXCopy) {
+    if (fwdXCopy >= grid[0].length) {
+      fwdXCopy = 0;
+    } else if (fwdXCopy < 0) {
+      fwdXCopy = grid[0].length - 1;
     }
-    
-    
-    
-    int j = i;
-    while(sequence.charAt(j) != '.'){
-      j++;
+  } else if (ant.getY() != fwdYCopy) {
+    if (fwdYCopy >= grid.length) {
+      fwdYCopy = 0;
+    } else if (fwdYCopy < 0) {
+      fwdYCopy = grid.length - 1;
     }
-    sequence.substring(i+1,j);
-    i=j;
   }
-}*/
+
+  return grid[fwdYCopy][fwdXCopy] == 1;
+}
+
+void divideSequence(String sequence) {
+  st = new StringTokenizer(sequence, "Y.N", true);
+
+  while (st.hasMoreTokens()) {
+    String temp = st.nextToken();
+
+    if (!temp.equals(".")) {
+
+      if (temp.equals("Y")) {
+        st.nextToken();
+        instructions.add(temp + st.nextToken());
+      } else if (temp.equals("N")) {
+        st.nextToken();
+        instructions.add(temp + st.nextToken());
+      } else {
+        instructions.add(temp);
+      }
+    }
+  }
+  println(instructions.toString());
+}
 
 //Dibuja y actualiza el sketch
 void drawGrid() {

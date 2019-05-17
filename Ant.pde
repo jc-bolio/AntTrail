@@ -18,19 +18,15 @@ public class Ant {
       this.forward();
       print("Forward, ");
       break;
-  
+
     case 'L':
       this.lookLeft();
       print("Left, ");
       break;
-      
+
     case 'R':
       this.lookRight();
       print("Right, ");
-      break;
-      
-    default:
-      print("None");
       break;
     }
   }
