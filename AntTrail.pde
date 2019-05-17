@@ -11,7 +11,7 @@ boolean food = false;
 
 void setup() {
   size(600, 500);
-  frameRate(1);
+  frameRate(5);
   background(209);
 
   grid = new int[][]{
@@ -24,44 +24,47 @@ void setup() {
   };
 
   ant = new Ant();
-  sequence = "N.FRFL.";
+  sequence = "FY.FRFL.";
   i=0;
   j=0;
 
   divideSequence(sequence);
-  sequence = instructions.get(j);
+  drawGrid();
 }
 
 void draw() {
-  drawGrid();
+  sequence = instructions.get(j);
 
-  if (sequence.charAt(i) == 'Y' || sequence.charAt(i) == 'N') {
+  while (sequence.charAt(i) == 'Y') { //<>//
     food = checkForFood();
-    if (food && sequence.contains("Y")) {
-      print(sequence + ": ");
-      ant.action(sequence.charAt(i));
-    } else if (!food && sequence.contains("N")) {
-      print(sequence + ": ");
-      ant.action(sequence.charAt(i));
-    } else {
+    if (!food) {
       j++;
+      if (j >= instructions.size()) {
+        j=0;
+      }
+      sequence = instructions.get(j);
     }
-  } else if (sequence.charAt(i) != 'Y' && sequence.charAt(0) != 'N') {
-    ant.action(sequence.charAt(i));
+    else
+      i++;
   }
 
+  sequence = instructions.get(j); //<>//
+  print(sequence + ": ");
+  ant.action(sequence.charAt(i));
+  
   i++;
 
-  if (j >= instructions.size()) {
-    j=0;
-  }
-  
   sequence = instructions.get(j);
 
   if (i>=sequence.length()) {
     i=0;
     j++;
   }
+  
+  if (j >= instructions.size()) {
+    j=0;
+  }
+  drawGrid();
 }
 
 boolean checkForFood() {
