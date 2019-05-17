@@ -1,4 +1,4 @@
-import java.util.*; //<>//
+import java.util.*; //<>// //<>//
 
 int [][] grid;
 Ant ant;
@@ -24,7 +24,7 @@ void setup() {
   };
 
   ant = new Ant();
-  sequence = "FFY.FR.N.LF.";
+  sequence = "N.FRFL.";
   i=0;
   j=0;
 
@@ -34,28 +34,33 @@ void setup() {
 
 void draw() {
   drawGrid();
-  sequence = instructions.get(j);
-  print(sequence + ": ");
 
-  if (sequence.charAt(0) == 'Y' || sequence.charAt(0) == 'N') {
+  if (sequence.charAt(i) == 'Y' || sequence.charAt(i) == 'N') {
     food = checkForFood();
-    if (!food && sequence.contains("Y")) {
-      j++;
-    } else if (food && sequence.contains("N")) {
+    if (food && sequence.contains("Y")) {
+      print(sequence + ": ");
+      ant.action(sequence.charAt(i));
+    } else if (!food && sequence.contains("N")) {
+      print(sequence + ": ");
+      ant.action(sequence.charAt(i));
+    } else {
       j++;
     }
+  } else if (sequence.charAt(i) != 'Y' && sequence.charAt(0) != 'N') {
+    ant.action(sequence.charAt(i));
   }
-  
-  ant.action(sequence.charAt(i));
 
   i++;
-  if (i>=sequence.length()) {
-    i=0;
-    j++;
-  }
 
   if (j >= instructions.size()) {
     j=0;
+  }
+  
+  sequence = instructions.get(j);
+
+  if (i>=sequence.length()) {
+    i=0;
+    j++;
   }
 }
 
