@@ -1,10 +1,12 @@
-int [][] grid; //<>// //<>//
-int i;
+int [][] grid; //<>//
+Ant ant;
 String sequence = "";
+int i;
 
 void setup() {
-  i=0;
-  frameRate(5);
+  size(600, 500);
+  frameRate(7);
+  background(209);
 
   grid = new int[][]{
     {2, 0, 1, 0, 1, 1, 0}, 
@@ -14,139 +16,64 @@ void setup() {
     {1, 1, 0, 1, 0, 0, 1}, 
     {0, 0, 0, 1, 1, 0, 0}, 
   };
-
-  sequence = "DWAW";
-
-  size(600, 500);
+  
+  ant = new Ant();
+  sequence = "FRFL";
+  i=0;
 }
 
-int antX=0;
-int antY=0;
-int forwardX = 1;
-int forwardY = 0;
+String conditionSeq;
 
 void draw() {
   drawGrid();
-  step();
-  i += 1;
+  //condition();
+  //step(sequence);
+  
+  ant.action(sequence.charAt(i));
+  
+  i++;
   if (i>=sequence.length()) {
     i=0;
   }
 }
 
-void step() {
-  int difference;
-
-  //Adelante
-  if (sequence.charAt(i)=='W') {
-    grid[antY][antX] = 0;
-
-    if (antX != forwardX) {
-      difference = forwardX - antX;
-
-      if (difference > 0) {
-
-        if (forwardX > grid[0].length - 1)
-          forwardX = 0;
-
-        antX = forwardX;
-        forwardX += 1;
-      } else if (difference < 0) {
-
-        if (forwardX < 0)
-          forwardX = grid[0].length - 1;
-
-        antX = forwardX;
-        forwardX -= 1;
+/*void condition(){
+  
+  int fwdXCopy = forwardX;
+  int fwdYCopy = forwardY;
+    
+  if(sequence.charAt(i)=='Y'){
+    
+    if (antX != fwdXCopy){
+      if(fwdXCopy >= grid[0].length){
+        fwdXCopy = 0;
+      } else if(fwdXCopy < 0){
+        fwdXCopy = grid[0].length - 1;
       }
-    } else if (antY != forwardY) {
-      difference = forwardY - antY;
-
-      if (difference > 0) {
-
-        if (forwardY > grid.length - 1)
-          forwardY = 0;
-
-        antY = forwardY;
-        forwardY += 1;
-      } else if (difference < 0) {
-
-        if (forwardY < 0)
-          forwardY = grid.length - 1;
-
-        antY = forwardY;
-        forwardY -= 1;
-      }
+      
+    
     }
-    grid[antY][antX] = 2;
-  }
-  //Voltear hacia la izquierda
-  if (sequence.charAt(i)=='A') {
-    if (antX != forwardX) {
-      difference = forwardX - antX;
-
-      if (difference > 0) {
-
-        forwardX = antX;
-        forwardY -= 1;
-      } else if (difference < 0) {
-
-        forwardX = antX;
-        forwardY += 1;
-      }
-    } else if (antY != forwardY) {
-      difference = forwardY - antY;
-
-      if (difference > 0) {
-
-        forwardY = antY;
-        forwardX += 1;
-      } else if (difference < 0) {
-
-        forwardY = antY;
-        forwardX -= 1;
-      }
+    
+    
+    
+    int j = i;
+    while(sequence.charAt(j) != '.'){
+      j++;
     }
+    sequence.substring(i+1,j);
+    i=j;
   }
-
-  //Voltear hacia la derecha
-  if (sequence.charAt(i)=='D') {
-    if (antX != forwardX) {
-      difference = forwardX - antX;
-
-      if (difference > 0) {
-
-        forwardX = antX;
-        forwardY += 1;
-      } else if (difference < 0) {
-
-        forwardX = antX;
-        forwardY -= 1;
-      }
-    } else if (antY != forwardY) {
-      difference = forwardY - antY;
-
-      if (difference > 0) {
-
-        forwardY = antY;
-        forwardX -= 1;
-      } else if (difference < 0) {
-
-        forwardY = antY;
-        forwardX += 1;
-      }
-    }
-  }
-}
+}*/
 
 //Dibuja y actualiza el sketch
 void drawGrid() {
+  background(209);
   int x=20;
   int y=20;
   int pasoX=(width-40)/grid[0].length;
   int pasoY=(height-40)/grid.length;
-  int fX=20+forwardX*pasoX+pasoX/2;
-  int fY=20+forwardY*pasoY+pasoY/2;
+  int fX=20+ant.getfwdX()*pasoX+pasoX/2;
+  int fY=20+ant.getfwdY()*pasoY+pasoY/2;
   for (int i=0; i<grid.length; i++) {
     for (int j=0; j<grid[i].length; j++) {
       if (grid[i][j]==1) {
