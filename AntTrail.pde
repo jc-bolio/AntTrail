@@ -1,4 +1,4 @@
-import java.util.*; //<>// //<>//
+import java.util.*; //<>// //<>// //<>// //<>//
 
 int [][] grid;
 Ant ant;
@@ -35,7 +35,7 @@ void setup() {
 void draw() {
   sequence = instructions.get(j);
 
-  while (sequence.charAt(i) == 'Y') { //<>//
+  while (sequence.charAt(i) == 'Y') {
     food = checkForFood();
     if (!food) {
       j++;
@@ -43,27 +43,25 @@ void draw() {
         j=0;
       }
       sequence = instructions.get(j);
-    }
-    else
+    } else
       i++;
   }
-  
-  while (sequence.charAt(i) == 'N') { //<>//
+
+  while (sequence.charAt(i) == 'N') {
     if (food) {
       j++;
       if (j >= instructions.size()) {
         j=0;
       }
       sequence = instructions.get(j);
-    }
-    else
+    } else
       i++;
   }
 
-  sequence = instructions.get(j); //<>//
+  sequence = instructions.get(j);
   print(sequence + ": ");
   ant.action(sequence.charAt(i));
-  
+
   i++;
 
   sequence = instructions.get(j);
@@ -72,7 +70,7 @@ void draw() {
     i=0;
     j++;
   }
-  
+
   if (j >= instructions.size()) {
     j=0;
   }
