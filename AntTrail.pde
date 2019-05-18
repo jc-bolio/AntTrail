@@ -24,7 +24,7 @@ void setup() {
   };
 
   ant = new Ant();
-  sequence = "FY.FRFL.";
+  sequence = "FY.FR.N.FL.";
   i=0;
   j=0;
 
@@ -38,6 +38,18 @@ void draw() {
   while (sequence.charAt(i) == 'Y') { //<>//
     food = checkForFood();
     if (!food) {
+      j++;
+      if (j >= instructions.size()) {
+        j=0;
+      }
+      sequence = instructions.get(j);
+    }
+    else
+      i++;
+  }
+  
+  while (sequence.charAt(i) == 'N') { //<>//
+    if (food) {
       j++;
       if (j >= instructions.size()) {
         j=0;
