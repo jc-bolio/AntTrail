@@ -1,4 +1,5 @@
-import java.util.*; //<>// //<>// //<>// //<>//
+import java.util.*; //<>//
+import javax.swing.JOptionPane;//<>// //<>// //<>//
 
 int [][] grid;
 Ant ant;
@@ -8,6 +9,7 @@ int j;
 StringTokenizer st;
 ArrayList<String> instructions = new ArrayList();
 boolean food = false;
+
 
 void setup() {
   size(600, 500);
@@ -24,7 +26,7 @@ void setup() {
   };
 
   ant = new Ant();
-  sequence = "FY.FR.N.FL.";
+  sequence = JOptionPane.showInputDialog(null,"Inserta las Instrucciones");
   i=0;
   j=0;
 
